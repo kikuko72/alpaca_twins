@@ -50,17 +50,17 @@ async def connect(ctx):
         logging.info('endpoint address:{}'.format(endpoint_address))
         logging.info('external address:{}'.format(external_address))
 
-        # buffer = []
-        # while True:
-        #     packet = await loop.sock_recv(sock, 512)
-        #     asyncio.run_coroutine_threadsafe(client.ws.speak(), client.loop)
-        #     buffer.append(packet)
-        #     client.send_audio_packet(packet, encode=False)
+        buffer = []
+        while True:
+            packet = await loop.sock_recv(sock, 512)
+            asyncio.run_coroutine_threadsafe(client.ws.speak(), client.loop)
+            buffer.append(packet)
+            client.send_audio_packet(packet, encode=False)
             
-        #     if len(buffer) == 50:
-        #         logging.info('sent.')
-        #         buffer = []
-        #         time.sleep(3)
+            if len(buffer) == 50:
+                logging.info('sent.')
+                buffer = []
+                time.sleep(3)
                 
 
     except Exception:
