@@ -1,10 +1,8 @@
-from datetime import datetime, timedelta
 from discord.ext import commands
 import asyncio
 import logging
 import os
 import socket
-import threading
 import time
 import traceback
 
@@ -56,12 +54,11 @@ async def connect(ctx):
             asyncio.run_coroutine_threadsafe(client.ws.speak(), client.loop)
             buffer.append(packet)
             client.send_audio_packet(packet, encode=False)
-            
+
             if len(buffer) == 50:
                 logging.info('sent.')
                 buffer = []
                 time.sleep(3)
-                
 
     except Exception:
         traceback.print_exc()
