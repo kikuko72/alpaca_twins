@@ -53,12 +53,13 @@ class RTPPacket:
 
 
 class AlpacaPacket:
-    def __init__(self, timestamp, decrypted_opus):
+    def __init__(self, seq_no, timestamp, decrypted_opus):
+        self.seq_no = seq_no
         self.timestamp = timestamp
         self.decrypted_opus = decrypted_opus
 
     def as_bytes(self) -> bytearray:
-        return self.timestamp + self.decrypted_payload
+        return self.timestamp + self.decrypted_opus
 
 
 def _decrypt_xsalsa20_poly1305_lite(data, secret_key) -> bytearray:
@@ -113,6 +114,7 @@ class VoiceParser:
             decrepted_opus = _drop_extension_header(
                 rtp_packet.has_extension, decrepted_payload)
 
-            return AlpacaPacket(rtp_packet.timestamp, decrepted_opus)
+            return AlpacaPacket(rtp_packet.seq_no, rtp_packet.timestamp,
+                                decrepted_opus)
         except Exception:
             traceback.print_exc()

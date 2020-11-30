@@ -72,8 +72,8 @@ async def connect(ctx):
                     alpaca_packet = vp.calculate_alpaca_packet(packet)
                     buffer.append(alpaca_packet)
                     if len(buffer) == 50:
-                        stream = map(lambda ap: ap.decrypted_payload, sorted(
-                            buffer, key=lambda ap: ap.timestamp))
+                        stream = map(lambda ap: ap.decrypted_opus, sorted(
+                            buffer, key=lambda ap: ap.seq_no))
                         for media in stream:
                             s.sendto(bytes(media), ('dead', 50007))
                         buffer = []

@@ -42,10 +42,10 @@ class RTPHeaderTests(unittest.TestCase):
 
 
 class AlpacaPacketTests(unittest.TestCase):
-    def test_as_bytesはtimestampとdecrypted_payloadを連結したバイト列を返す(self):
+    def test_as_bytesはtimestampとdecrypted_opusを連結したバイト列を返す(self):
         timestamp = b'\x00\xc2\x1a\xd4'
-        decrypted_payload = b'\xca\xfe\xba\xbe'
-        packet = recieve_voice.AlpacaPacket(timestamp, decrypted_payload)
+        decrypted_opus = b'\xca\xfe\xba\xbe'
+        packet = recieve_voice.AlpacaPacket(1, timestamp, decrypted_opus)
         self.assertEqual(packet.as_bytes(),
                          b'\x00\xc2\x1a\xd4\xca\xfe\xba\xbe')
 
