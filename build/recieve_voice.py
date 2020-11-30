@@ -30,11 +30,23 @@ class RTPPacket:
                 self.should_be_ignore = False
 
             self.header = data[:header_length]
+            self.seq_no = int.from_bytes(data[2:4], byteorder='big')
             self.timestamp = data[4:8]
             self.payload = data[header_length:]
+            self.data = data
         except IndexError:
             raise ValueError(
                 'uhh... maybe this is not a RTP packet: {}'.format(data))
+
+    def __str__(self):
+        data = self.data
+        return '[{0:08b}][{1:08b}][{2}][{3}][{4}][{5}], header_len={6}, timestamp={7}, payload_len={8}'.format(
+            data[0], data[1],
+            int.from_bytes(data[2:4], byteorder='big'),
+            int.from_bytes(data[4:8], byteorder='big'),
+            int.from_bytes(data[8:12], byteorder='big'),
+            int.from_bytes(data[12:16], byteorder='big'),
+            len(self.header), int.from_bytes(self.timestamp, byteorder='big'), len(self.payload))
 
 
 class AlpacaPacket:

@@ -67,7 +67,8 @@ async def connect(ctx):
                     if packet.should_be_ignore:
                         continue
 
-                    # logging.debug('recieved: {}'.format(recv))
+                    logging.debug(packet)
+
                     alpaca_packet = vp.calculate_alpaca_packet(packet)
                     buffer.append(alpaca_packet)
                     if len(buffer) == 50:
@@ -78,7 +79,6 @@ async def connect(ctx):
                         buffer = []
                         logging.info('sent.')
 
-                    
                 except ValueError:
                     traceback.print_exc()
                     if not alerted:
