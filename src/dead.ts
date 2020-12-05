@@ -1,5 +1,6 @@
 import net from 'net'
 import { Client, VoiceChannel } from 'discord.js'
+import { DESTINATION_CHANNEL } from './options'
 const fs = require('fs')
 
 const TWINS_SOCKET = '/connection/communicate.sock'
@@ -8,12 +9,6 @@ const client = new Client()
 const TOKEN = process.env.ALPACA_TWINS_TOKEN
 
 const COMMAND_PREFIX = 'OK,あるぱか '
-
-const options = {
-  sourceChannel: '000000000000000000',
-  destinationChannel: '000000000000000000',
-  sourceUser: '000000000000000000'
-}
 
 client.on('debug', console.log)
 
@@ -50,7 +45,7 @@ client.on('message', (message) => {
 })
 
 client.on('ready', async () => {
-  const connection = await (client.channels.cache.get(options.destinationChannel) as VoiceChannel).join()
+  const connection = await (client.channels.cache.get(DESTINATION_CHANNEL) as VoiceChannel).join()
 
   const server = net.createServer(stream => {
     new Promise(res => connection.play(stream, {"type":"opus"}).on('finish', res))

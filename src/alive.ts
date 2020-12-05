@@ -1,7 +1,7 @@
 import net from 'net'
 import { Client, VoiceChannel } from 'discord.js'
+import { SOURCE_CHANNEL, USER_TO_LISTEN_TO } from './options'
 const prism = require('prism-media')
-const fs = require('fs')
 
 const TWINS_SOCKET = '/connection/communicate.sock'
 
@@ -9,12 +9,6 @@ const client = new Client()
 const TOKEN = process.env.ALPACA_TWINS_TOKEN
 
 const COMMAND_PREFIX = 'OK,あるぱか '
-
-const options = {
-  sourceChannel: '000000000000000000',
-  destinationChannel: '000000000000000000',
-  sourceUser: '000000000000000000'
-}
 
 client.on('debug', console.log)
 
@@ -38,7 +32,7 @@ client.on('message', async (message) => {
     }
 
   const connection = await message.member.voice.channel.join()
-  const userToListenTo = await client.users.fetch(options.sourceUser)
+  const userToListenTo = await client.users.fetch(USER_TO_LISTEN_TO)
 
   const connect = () => {
     try {
@@ -71,8 +65,8 @@ client.on('message', (message) => {
 })
 
 client.on('ready', async () => {
-  const connection = await (client.channels.cache.get(options.sourceChannel) as VoiceChannel).join()
-  const userToListenTo = await client.users.fetch(options.sourceUser)
+  const connection = await (client.channels.cache.get(SOURCE_CHANNEL) as VoiceChannel).join()
+  const userToListenTo = await client.users.fetch(USER_TO_LISTEN_TO)
 
   const connect = () => {
     try {

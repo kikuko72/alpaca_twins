@@ -15,3 +15,4 @@ RUN apt-get update \
 CMD ["node", "dead.js"]
 
 COPY ./build/dead.js /alpaca_twins/
+COPY ./build/options.js /alpaca_twins/
