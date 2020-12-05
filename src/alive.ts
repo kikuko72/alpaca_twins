@@ -72,10 +72,8 @@ client.on('ready', async () => {
     try {
       const sock = net.createConnection(TWINS_SOCKET)
 
-      const stream = connection.receiver.createStream(userToListenTo, {end: 'manual', mode: 'pcm'})
-      const encoder = new prism.opus.Encoder({ channels: 2, rate: 48000, frameSize: 960 })
-      stream.pipe(encoder)
-      encoder.on('data', data => {
+      const stream = connection.receiver.createStream(userToListenTo, {end: 'manual'})
+      stream.on('data', data => {
         sock.write(data)
         console.log(data)
       })
