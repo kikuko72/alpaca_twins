@@ -88,7 +88,7 @@ def _drop_extension_header(has_extension: bool, decrepted_payload: bytearray):
         decrepted_payload[2:4], byteorder='big')
     logger.debug('dropped extension header. length:{}'.format(
         extension_header_length))
-    return decrepted_payload[extension_header_length:]
+    return decrepted_payload[4 + extension_header_length:]
 
 
 class VoiceParser:
@@ -110,6 +110,7 @@ class VoiceParser:
 
         try:
             decrepted_payload = decrypt_func(rtp_packet.payload, secret_key)
+            logger.debug('decrepted payload:{}'.format(decrepted_payload))
 
             decrepted_opus = _drop_extension_header(
                 rtp_packet.has_extension, decrepted_payload)

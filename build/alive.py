@@ -11,7 +11,7 @@ bot = commands.Bot(command_prefix='OK,あるぱか ')
 channel_name = os.environ['CHANNEL_NAME']
 token = os.environ['ALPACA_TWINS_TOKEN']
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
