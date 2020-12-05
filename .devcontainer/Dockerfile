@@ -1,0 +1,18 @@
+# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.148.1/containers/typescript-node/.devcontainer/base.Dockerfile
+
+# [Choice] Node.js version: 14, 12, 10
+ARG VARIANT="14-buster"
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:0-${VARIANT}
+
+RUN mkdir -p /home/node/.vscode-server/extensions \
+        /home/node/.vscode-server-insiders/extensions \
+    && chown -R node \
+        /home/node/.vscode-server \
+        /home/node/.vscode-server-insiders
+
+RUN apt-get update \
+  && apt-get install python3 make gcc g++ -y \
+  && npm install -g \
+  && apt-get remove make gcc g++  -y\
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*

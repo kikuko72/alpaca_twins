@@ -1,18 +1,25 @@
 version: "3.8"
 services:
   alive:
-    image: alpaca-alive
+    image: alpaca-alive-js
     build: 
-      context: ./build
+      context: ./
       dockerfile: Dockerfile-alive
     environment: 
       - ALPACA_TWINS_TOKEN=${ALPACA_ALIVE_TOKEN}
       - CHANNEL_NAME=生存者会議用
+    volumes: 
+      - connection:/connection
   dead:
-    image: alpaca-dead
+    image: alpaca-dead-js
     build: 
-      context: ./build
+      context: ./
       dockerfile: Dockerfile-dead
     environment: 
       - ALPACA_TWINS_TOKEN=${ALPACA_DEAD_TOKEN}
       - CHANNEL_NAME=墓場
+    volumes: 
+      - connection:/connection
+
+volumes:
+  connection: 
