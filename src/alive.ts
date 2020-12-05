@@ -1,7 +1,6 @@
 import net from 'net'
 import { Client, VoiceChannel } from 'discord.js'
 import { SOURCE_CHANNEL, USER_TO_LISTEN_TO } from './options'
-const prism = require('prism-media')
 
 const TWINS_SOCKET = '/connection/communicate.sock'
 
@@ -30,27 +29,6 @@ client.on('message', async (message) => {
     } else {
       message.reply('You need to join a voice channel first!')
     }
-
-  const connection = await message.member.voice.channel.join()
-  const userToListenTo = await client.users.fetch(USER_TO_LISTEN_TO)
-
-  const connect = () => {
-    try {
-      const sock = net.createConnection(TWINS_SOCKET)
-
-      const stream = connection.receiver.createStream(userToListenTo, {end: 'manual', mode: 'pcm'})
-      const encoder = new prism.opus.Encoder({ channels: 2, rate: 48000, frameSize: 960 })
-      stream.pipe(encoder)
-      encoder.on('data', data => {
-        sock.write(data)
-        console.log(data)
-      })
-    } catch (error) {
-      console.log('waiting...')
-      setTimeout(connect, 1000)
-    }
-  }
-  setTimeout(connect, 1000)
   }
 })
 
